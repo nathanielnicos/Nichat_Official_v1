@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "40441106959",
+    "project_id": "nichat-78f00",
+    "storage_bucket": "nichat-78f00.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:40441106959:android:1886c0c7a9a3afb175c97a",
+        "android_client_info": {
+          "package_name": "id.nns.nichat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "40441106959-2g9sgi7cjf5notc3k1d5igm44n4tnj0h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB82_gMEcY9vaTdhAfrDqFDvLOUNHAd-CM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "40441106959-2g9sgi7cjf5notc3k1d5igm44n4tnj0h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
