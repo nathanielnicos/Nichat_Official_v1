@@ -28,6 +28,9 @@
             </intent-filter>
         </service>
         <activity
+            android:name="com.canhub.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
+        <activity
             android:name=".ui.image.ImageActivity"
             android:exported="false"
             android:theme="@style/Theme.Nichat" />

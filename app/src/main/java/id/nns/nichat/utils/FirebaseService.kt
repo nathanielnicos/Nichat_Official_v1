@@ -2,7 +2,7 @@ package id.nns.nichat.utils
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.NotificationManager.IMPORTANCE_DEFAULT
+import android.app.NotificationManager.IMPORTANCE_HIGH
 import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.app.PendingIntent.FLAG_ONE_SHOT
@@ -17,6 +17,7 @@ import id.nns.nichat.R
 import id.nns.nichat.ui.home.HomeActivity
 import id.nns.nichat.utils.Constants.CHANNEL_ID
 import id.nns.nichat.utils.Constants.CHANNEL_NAME
+import id.nns.nichat.utils.Constants.FIREBASE_STORAGE_URL
 import id.nns.nichat.utils.firebase_utils.FirestoreUtil
 import kotlin.random.Random
 
@@ -52,7 +53,13 @@ class FirebaseService : FirebaseMessagingService() {
             )
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle(p0.data["sender"])
-            .setContentText(p0.data["text"])
+            .setContentText(
+                if (p0.data["text"]?.contains(FIREBASE_STORAGE_URL) == true) {
+                    "IMAGE"
+                } else {
+                    p0.data["text"]
+                }
+            )
             .setSmallIcon(R.drawable.logo)
             .setAutoCancel(true)
             .setContentIntent(pendingIntent)
@@ -63,7 +70,7 @@ class FirebaseService : FirebaseMessagingService() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createNotificationChannel(notificationManager: NotificationManager) {
-        val channel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME, IMPORTANCE_DEFAULT)
+        val channel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME, IMPORTANCE_HIGH)
 
         notificationManager.createNotificationChannel(channel)
     }

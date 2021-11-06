@@ -1,21 +1,22 @@
 package id.nns.nichat.ui.my_profile
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
+import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Gravity
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.palette.graphics.Palette
@@ -27,8 +28,9 @@ import id.nns.nichat.databinding.ActivityProfileBinding
 import id.nns.nichat.preference.UserPreference
 import id.nns.nichat.data.response.UserResponse
 import id.nns.nichat.ui.splash.SplashActivity
+import id.nns.nichat.utils.CropActivityResultContract
 import id.nns.nichat.utils.removeStatusBar
-import java.io.ByteArrayOutputStream
+import id.nns.nichat.utils.uriToByteArray
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -43,9 +45,8 @@ class ProfileActivity : AppCompatActivity() {
     private var imgUrl: String? = null
     private var pictureJustChanged = false
 
-    companion object {
-        private const val SELECT_IMAGE = 100
-    }
+    private lateinit var cropActivityResultContract: ActivityResultContract<Any?, Uri?>
+    private lateinit var cropActivityResultLauncher: ActivityResultLauncher<Any?>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,12 +54,29 @@ class ProfileActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         removeStatusBar()
-
         setView()
         setEditTextListener()
 
+        cropActivityResultContract = CropActivityResultContract(this, 1, 1)
+        cropActivityResultLauncher = registerForActivityResult(cropActivityResultContract) { uri ->
+            if (uri != null) {
+                selectedImageBytes = uriToByteArray(
+                    baseContext = baseContext,
+                    uri = uri
+                )
+
+                // Change to new image
+                Glide.with(this)
+                    .load(uri)
+                    .into(binding.civProfile)
+
+                pictureJustChanged = true
+                binding.btnSave.visibility = View.VISIBLE
+            }
+        }
+
         binding.civProfile.setOnClickListener {
-            openStorage()
+            cropActivityResultLauncher.launch(null)
         }
 
         binding.ibCalendar.setOnClickListener {
@@ -217,45 +235,6 @@ class ProfileActivity : AppCompatActivity() {
 
             override fun afterTextChanged(s: Editable?) = Unit
         })
-    }
-
-    private fun openStorage() {
-        val intent = Intent(Intent.ACTION_PICK).apply {
-            type = "image/*"
-        }
-        @Suppress("DEPRECATION")
-        startActivityForResult(
-            intent,
-            SELECT_IMAGE
-        )
-    }
-
-    @Suppress("DEPRECATION")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == SELECT_IMAGE
-            && resultCode == Activity.RESULT_OK
-            && data != null
-            && data.data != null
-        ) {
-            val selectedImagePath = data.data
-            @Suppress("DEPRECATION")
-            val selectedImageBitmap = MediaStore.Images.Media
-                .getBitmap(this.contentResolver, selectedImagePath)
-
-            val outputStream = ByteArrayOutputStream()
-            selectedImageBitmap.compress(Bitmap.CompressFormat.JPEG, 50, outputStream)
-            selectedImageBytes = outputStream.toByteArray()
-
-            // Change to new image
-            Glide.with(this)
-                .load(selectedImageBytes)
-                .into(binding.civProfile)
-
-            pictureJustChanged = true
-            binding.btnSave.visibility = View.VISIBLE
-        }
     }
 
     private fun observeValue() {
