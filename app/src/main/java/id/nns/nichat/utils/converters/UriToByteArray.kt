@@ -1,4 +1,4 @@
-package id.nns.nichat.utils
+package id.nns.nichat.utils.converters
 
 import android.content.Context
 import android.graphics.Bitmap

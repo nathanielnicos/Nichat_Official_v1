@@ -1,4 +1,4 @@
-package id.nns.nichat.local
+package id.nns.nichat.local.channel
 
 import android.content.Context
 import androidx.room.Database

@@ -1,11 +1,13 @@
-package id.nns.nichat.utils
+package id.nns.nichat.utils.converters
 
 import id.nns.nichat.data.entity.ChannelEntity
+import id.nns.nichat.data.entity.ChatEntity
 import id.nns.nichat.data.entity.MessageEntity
 import id.nns.nichat.data.entity.UserEntity
 import id.nns.nichat.data.response.MessageResponse
 import id.nns.nichat.data.response.UserResponse
 import id.nns.nichat.domain.model.Channel
+import id.nns.nichat.domain.model.Chat
 import id.nns.nichat.domain.model.Message
 import id.nns.nichat.domain.model.User
 
@@ -21,6 +23,7 @@ object DataMapper {
             it.toDomain()
         }
 
+    // Entity to Domain
     private fun UserEntity.toDomain() : User =
         User(
             dob = this.dob,
@@ -47,6 +50,7 @@ object DataMapper {
             latestMessage = this.latestMessage?.toDomain()
         )
 
+    // Domain to Entity
     private fun User.toEntity() : UserEntity =
         UserEntity(
             dob = this.dob,
@@ -73,6 +77,13 @@ object DataMapper {
             latestMessage = this.latestMessage?.toEntity()
         )
 
+    fun Chat.toEntity() : ChatEntity =
+        ChatEntity(
+            partnerId = this.partnerId,
+            messages = this.messages
+        )
+
+    // Response to Domain
     fun UserResponse.toDomain() : User =
         User(
             dob = this.dob,

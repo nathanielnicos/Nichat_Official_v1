@@ -1,10 +1,10 @@
-package id.nns.nichat.utils
+package id.nns.nichat.services
 
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.NotificationManager.IMPORTANCE_HIGH
 import android.app.PendingIntent
-import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.app.PendingIntent.FLAG_ONE_SHOT
 import android.content.Context
 import android.content.Intent
@@ -28,6 +28,7 @@ class FirebaseService : FirebaseMessagingService() {
         FirestoreUtil.updateToken(p0)
     }
 
+    @SuppressLint("UnspecifiedImmutableFlag")
     override fun onMessageReceived(p0: RemoteMessage) {
         super.onMessageReceived(p0)
 
@@ -47,15 +48,13 @@ class FirebaseService : FirebaseMessagingService() {
                 this,
                 0,
                 intent,
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                    FLAG_IMMUTABLE or FLAG_ONE_SHOT else
-                        FLAG_ONE_SHOT
+                FLAG_ONE_SHOT
             )
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle(p0.data["sender"])
             .setContentText(
                 if (p0.data["text"]?.contains(FIREBASE_STORAGE_URL) == true) {
-                    "IMAGE"
+                    "Image"
                 } else {
                     p0.data["text"]
                 }
@@ -71,7 +70,6 @@ class FirebaseService : FirebaseMessagingService() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createNotificationChannel(notificationManager: NotificationManager) {
         val channel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME, IMPORTANCE_HIGH)
-
         notificationManager.createNotificationChannel(channel)
     }
 

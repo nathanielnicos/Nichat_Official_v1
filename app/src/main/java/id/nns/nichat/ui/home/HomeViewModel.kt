@@ -7,7 +7,7 @@ import com.google.firebase.database.DatabaseError
 import id.nns.nichat.domain.model.Channel
 import id.nns.nichat.data.response.MessageResponse
 import id.nns.nichat.domain.repository.ILocalRepository
-import id.nns.nichat.utils.DataMapper.toDomain
+import id.nns.nichat.utils.converters.DataMapper.toDomain
 import id.nns.nichat.utils.firebase_utils.FirestoreUtil
 import id.nns.nichat.utils.firebase_utils.RealtimeUtil
 import kotlinx.coroutines.Dispatchers
@@ -36,17 +36,20 @@ class HomeViewModel(private val localRepository: ILocalRepository) : ViewModel()
                 ) {
                     mapValue(snapshot)
                 }
+
                 override fun onChildChanged(
                     snapshot: DataSnapshot,
                     previousChildName: String?
                 ) {
                     mapValue(snapshot)
                 }
+
                 override fun onChildRemoved(snapshot: DataSnapshot) = Unit
                 override fun onChildMoved(
                     snapshot: DataSnapshot,
                     previousChildName: String?
                 ) = Unit
+
                 override fun onCancelled(error: DatabaseError) = Unit
             })
     }
@@ -78,15 +81,7 @@ class HomeViewModel(private val localRepository: ILocalRepository) : ViewModel()
             )
             if (channelFromLocalDatabase != null) {
                 withContext(Dispatchers.Main) {
-                    if (channelFromRealtimeDatabase.partnerUser?.name !=
-                        channelFromLocalDatabase.partnerUser?.name ||
-                        channelFromRealtimeDatabase.partnerUser?.status !=
-                        channelFromLocalDatabase.partnerUser?.status ||
-                        channelFromRealtimeDatabase.partnerUser?.imgUrl !=
-                        channelFromLocalDatabase.partnerUser?.imgUrl ||
-                        channelFromRealtimeDatabase.latestMessage?.text !=
-                        channelFromLocalDatabase.latestMessage?.text) {
-
+                    if (differentValue(channelFromRealtimeDatabase, channelFromLocalDatabase)) {
                         saveToLocalDatabase(channelFromRealtimeDatabase)
                     }
                 }
@@ -94,6 +89,20 @@ class HomeViewModel(private val localRepository: ILocalRepository) : ViewModel()
                 saveToLocalDatabase(channelFromRealtimeDatabase)
             }
         }
+    }
+
+    private fun differentValue(
+        channelFromRealtimeDatabase: Channel,
+        channelFromLocalDatabase: Channel
+    ): Boolean {
+        return channelFromRealtimeDatabase.partnerUser?.name !=
+                channelFromLocalDatabase.partnerUser?.name ||
+                channelFromRealtimeDatabase.partnerUser?.status !=
+                channelFromLocalDatabase.partnerUser?.status ||
+                channelFromRealtimeDatabase.partnerUser?.imgUrl !=
+                channelFromLocalDatabase.partnerUser?.imgUrl ||
+                channelFromRealtimeDatabase.latestMessage?.text !=
+                channelFromLocalDatabase.latestMessage?.text
     }
 
     private fun saveToLocalDatabase(channelFromRealtimeDatabase: Channel) {

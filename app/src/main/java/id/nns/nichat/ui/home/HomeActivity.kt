@@ -8,7 +8,7 @@ import androidx.navigation.ui.NavigationUI
 import id.nns.nichat.R
 import id.nns.nichat.ui.user.UserActivity
 import id.nns.nichat.databinding.ActivityHomeBinding
-import id.nns.nichat.utils.removeStatusBar
+import id.nns.nichat.utils.extensions.removeStatusBar
 
 class HomeActivity : AppCompatActivity() {
 

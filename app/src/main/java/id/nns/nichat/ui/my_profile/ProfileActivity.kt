@@ -29,8 +29,8 @@ import id.nns.nichat.preference.UserPreference
 import id.nns.nichat.data.response.UserResponse
 import id.nns.nichat.ui.splash.SplashActivity
 import id.nns.nichat.utils.CropActivityResultContract
-import id.nns.nichat.utils.removeStatusBar
-import id.nns.nichat.utils.uriToByteArray
+import id.nns.nichat.utils.extensions.removeStatusBar
+import id.nns.nichat.utils.converters.uriToByteArray
 import java.text.SimpleDateFormat
 import java.util.*
 

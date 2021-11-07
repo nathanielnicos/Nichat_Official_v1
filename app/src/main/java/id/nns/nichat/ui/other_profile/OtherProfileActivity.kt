@@ -14,7 +14,7 @@ import id.nns.nichat.R
 import id.nns.nichat.databinding.ActivityOtherProfileBinding
 import id.nns.nichat.domain.model.User
 import id.nns.nichat.ui.image.ImageActivity
-import id.nns.nichat.utils.removeStatusBar
+import id.nns.nichat.utils.extensions.removeStatusBar
 
 class OtherProfileActivity : AppCompatActivity() {
 

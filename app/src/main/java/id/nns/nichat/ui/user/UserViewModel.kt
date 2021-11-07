@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import id.nns.nichat.domain.model.User
-import id.nns.nichat.utils.DataMapper
+import id.nns.nichat.utils.converters.DataMapper
 import id.nns.nichat.utils.firebase_utils.FirestoreUtil
 
 class UserViewModel : ViewModel() {

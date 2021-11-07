@@ -1,4 +1,4 @@
-package id.nns.nichat.utils
+package id.nns.nichat.utils.extensions
 
 import android.content.Context
 import androidx.core.content.ContextCompat
@@ -7,6 +7,7 @@ import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import id.nns.nichat.R
+import id.nns.nichat.utils.XAxisValueFormatter
 
 fun HorizontalBarChart.setSomething(
     dataSet: BarDataSet,

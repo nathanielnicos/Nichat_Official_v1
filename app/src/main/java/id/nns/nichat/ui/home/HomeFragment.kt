@@ -41,6 +41,10 @@ class HomeFragment : Fragment() {
         homeViewModel = ViewModelProvider(this, factory)[HomeViewModel::class.java]
 
         preference = UserPreference(requireContext())
+//        homeViewModel.checkValueChange(
+//            context = requireContext(),
+//            preferenceId = preference.getUser().uid.toString()
+//        )
 
         adapter = HomeAdapter(preference.getUser().uid)
         binding.rvHome.adapter = adapter

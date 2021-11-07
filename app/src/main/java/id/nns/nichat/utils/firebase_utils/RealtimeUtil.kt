@@ -74,4 +74,9 @@ object RealtimeUtil {
             }
     }
 
+//    fun checkValueChange() : DatabaseReference {
+//        return realtimeInstance.reference
+//            .child("/channels/${FirebaseAuth.getInstance().uid}")
+//    }
+
 }

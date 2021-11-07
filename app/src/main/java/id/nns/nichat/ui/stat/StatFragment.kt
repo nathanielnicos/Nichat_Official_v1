@@ -10,7 +10,7 @@ import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import id.nns.nichat.preference.UserPreference
 import id.nns.nichat.databinding.FragmentStatBinding
-import id.nns.nichat.utils.setSomething
+import id.nns.nichat.utils.extensions.setSomething
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.Period

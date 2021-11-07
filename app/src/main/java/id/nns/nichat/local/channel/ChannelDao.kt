@@ -1,4 +1,4 @@
-package id.nns.nichat.local
+package id.nns.nichat.local.channel
 
 import androidx.lifecycle.LiveData
 import androidx.room.*

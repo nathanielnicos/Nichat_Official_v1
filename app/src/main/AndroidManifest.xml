@@ -18,7 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Nichat">
         <service
-            android:name=".utils.FirebaseService"
+            android:name=".services.FirebaseService"
             android:permission="com.google.android.c2dm.permission.SEND"
             android:exported="true">
             <intent-filter>

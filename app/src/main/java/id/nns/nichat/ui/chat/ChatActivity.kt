@@ -16,9 +16,10 @@ import id.nns.nichat.databinding.ActivityChatBinding
 import id.nns.nichat.preference.UserPreference
 import id.nns.nichat.domain.model.Message
 import id.nns.nichat.domain.model.User
+import id.nns.nichat.utils.converters.ChatConverters
 import id.nns.nichat.ui.other_profile.OtherProfileActivity
 import id.nns.nichat.utils.CropActivityResultContract
-import id.nns.nichat.utils.uriToByteArray
+import id.nns.nichat.utils.converters.uriToByteArray
 import id.nns.nichat.viewmodel.ViewModelFactory
 
 class ChatActivity : AppCompatActivity() {
@@ -50,7 +51,7 @@ class ChatActivity : AppCompatActivity() {
         binding.rvChat.adapter = adapter
 
         toUser = intent.getParcelableExtra(KEY_USER)
-        chatViewModel.getAllMessages(toUser?.uid.toString())
+        chatViewModel.setPartnerId(toUser?.uid.toString())
 
         showToolbar()
         observeValue()
@@ -80,12 +81,13 @@ class ChatActivity : AppCompatActivity() {
                 binding.btnSend.visibility = View.INVISIBLE
                 binding.pbSend.visibility = View.VISIBLE
 
-                chatViewModel.sendMessage(toUser?.uid.toString(), message)
-                chatViewModel.sendNotification(
-                    toId = toUser?.uid.toString(),
-                    sender = preference.getUser().name.toString(),
-                    text = message
-                )
+                chatViewModel.sendMessage(toUser?.uid.toString(), message).also {
+                    chatViewModel.sendNotification(
+                        toId = toUser?.uid.toString(),
+                        sender = preference.getUser().name.toString(),
+                        text = message
+                    )
+                }
             }
         }
 
@@ -136,8 +138,10 @@ class ChatActivity : AppCompatActivity() {
 
     private fun observeValue() {
         chatViewModel.messages.observe(this) {
-            adapter.chats = it as ArrayList<Message>
-            binding.rvChat.scrollToPosition(adapter.itemCount - 1)
+            if (it != null) {
+                adapter.chats = ChatConverters.fromJsonToList(it) as ArrayList<Message>
+                binding.rvChat.scrollToPosition(adapter.itemCount - 1)
+            }
         }
 
         chatViewModel.isSend.observe(this) {
