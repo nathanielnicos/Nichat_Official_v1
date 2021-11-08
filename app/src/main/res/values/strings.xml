@@ -30,4 +30,7 @@
     <string name="you_sent_an_image">You sent an image.</string>
     <string name="image">Image</string>
     <string name="you">You:</string>
+    <string name="date_pattern">dd/MM/yyyy</string>
+    <string name="month">Month</string>
+    <string name="day">Day</string>
 </resources>

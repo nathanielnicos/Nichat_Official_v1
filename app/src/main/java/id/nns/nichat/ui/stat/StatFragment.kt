@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
+import id.nns.nichat.R
 import id.nns.nichat.preference.UserPreference
 import id.nns.nichat.databinding.FragmentStatBinding
 import id.nns.nichat.utils.extensions.setSomething
@@ -40,8 +41,11 @@ class StatFragment : Fragment() {
         val preference = UserPreference(requireContext())
         val dob = preference.getUser().dob
 
-        if (dob != "--/--/----") {
-            val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        if (dob != activity?.resources?.getString(R.string.date)) {
+            val dateFormat = SimpleDateFormat(
+                activity?.resources?.getString(R.string.date_pattern),
+                Locale.getDefault()
+            )
             val calendar = Calendar.getInstance()
 
             calendar.time = dateFormat.parse(dob) as Date
@@ -68,7 +72,7 @@ class StatFragment : Fragment() {
             binding.hcbAgeMonth.setSomething(
                 dataSet = ageMonthDataSet,
                 maxValue = 12F,
-                values = arrayOf("M")
+                values = arrayOf(activity?.resources?.getString(R.string.month) ?: "")
             )
 
             // Day
@@ -86,7 +90,7 @@ class StatFragment : Fragment() {
             binding.hcbAgeDay.setSomething(
                 dataSet = ageDayDataSet,
                 maxValue = 30F,
-                values = arrayOf("D")
+                values = arrayOf(activity?.resources?.getString(R.string.day) ?: "")
             )
         }
     }

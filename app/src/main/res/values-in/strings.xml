@@ -30,4 +30,7 @@
     <string name="you_sent_an_image">Kamu mengirim gambar.</string>
     <string name="image">Gambar</string>
     <string name="you">Kamu:</string>
+    <string name="date_pattern">dd/MM/yyyy</string>
+    <string name="month">Bulan</string>
+    <string name="day">Hari</string>
 </resources>

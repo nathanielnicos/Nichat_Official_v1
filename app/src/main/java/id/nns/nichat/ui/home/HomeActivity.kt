@@ -8,7 +8,6 @@ import androidx.navigation.ui.NavigationUI
 import id.nns.nichat.R
 import id.nns.nichat.ui.user.UserActivity
 import id.nns.nichat.databinding.ActivityHomeBinding
-import id.nns.nichat.utils.extensions.removeStatusBar
 
 class HomeActivity : AppCompatActivity() {
 
@@ -19,7 +18,6 @@ class HomeActivity : AppCompatActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        removeStatusBar()
         initBottomNavBar()
 
         binding.fabHome.setOnClickListener {
