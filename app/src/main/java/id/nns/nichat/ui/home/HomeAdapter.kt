@@ -51,13 +51,13 @@ class HomeAdapter(private val currentUserId: String?) : RecyclerView.Adapter<Hom
             vhBinding.tvLatestMessageListChat.text =
                 if (channel.latestMessage?.fromId == currentUserId) {
                     if (channel.latestMessage?.text.toString().contains(FIREBASE_STORAGE_URL)) {
-                        "You sent an image."
+                        itemView.context.resources.getString(R.string.you_sent_an_image)
                     } else {
-                        "You: ${channel.latestMessage?.text}"
+                        itemView.context.resources.getString(R.string.you) + " " + channel.latestMessage?.text
                     }
                 } else {
                     if (channel.latestMessage?.text.toString().contains(FIREBASE_STORAGE_URL)) {
-                        "Image"
+                        itemView.context.resources.getString(R.string.image)
                     } else {
                         channel.latestMessage?.text
                     }

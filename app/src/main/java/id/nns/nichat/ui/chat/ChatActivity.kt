@@ -99,14 +99,14 @@ class ChatActivity : AppCompatActivity() {
     private fun showSendImageDialog() {
         AlertDialog.Builder(this)
             .setTitle(title)
-            .setMessage("Send this image?")
-            .setPositiveButton("Yes") { _, _ ->
+            .setMessage(resources.getString(R.string.send_this_image))
+            .setPositiveButton(resources.getString(R.string.yes)) { _, _ ->
                 binding.etChat.text.clear()
                 binding.btnSend.visibility = View.INVISIBLE
                 binding.pbSend.visibility = View.VISIBLE
                 chatViewModel.getImageUrl(selectedImageBytes)
             }
-            .setNegativeButton("No") { dialog, _ ->
+            .setNegativeButton(resources.getString(R.string.no)) { dialog, _ ->
                 dialog.dismiss()
             }
             .setCancelable(true)
